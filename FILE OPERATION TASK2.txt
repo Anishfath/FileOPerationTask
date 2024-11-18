@@ -1,0 +1,59 @@
+FILE OPERATION TASK
+
+2). WRITE A JAVA PROGRAM TO READ DATA FROM AN EXCEL FILE USING APACHE POI LIBRARY AND PRINT IT IN THE CONSOLE.
+
+
+Name	        Age	Email
+John Doe	30	john@test.com
+Jane Doe	28	jane@test.com
+Bob Smith	35	jackv@example.com
+Swapnil 	37	swapnil@example.com
+
+package guviTask;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class ReadExcel {
+    public static void main(String[] args) {
+        String excelFilePath = "Data.xlsx";
+
+        try (FileInputStream fileInputStream = new FileInputStream(excelFilePath);
+             Workbook workbook = new XSSFWorkbook(fileInputStream)) {
+
+            Sheet sheet = workbook.getSheet("Sheet1");
+
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    switch (cell.getCellType()) {
+                        case STRING:
+                            System.out.print(cell.getStringCellValue() + "\t");
+                            break;
+                        case NUMERIC:
+                            System.out.print(cell.getNumericCellValue() + "\t");
+                            break;
+                        default:
+                            System.out.print("UNKNOWN\t");
+                            break;
+                    }
+                }
+                System.out.println();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+OUTPUT:
+
+Name        Age     Email
+John Doe    30.0    john@test.com
+Jane Doe    28.0    jane@test.com
+Bob Smith   35.0    jackv@example.com
+Swapnil     37.0    swapnil@example.com
+
+
